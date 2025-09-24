@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'tokensecurestorage.dart'; // Importe a página do token
+import 'sqlitetasks.dart'; // Importe a página do SQLite
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,14 +77,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   void _toggleDarkMode() {
     widget.onDarkModeChanged(!widget.isDark);
   }
@@ -98,12 +92,6 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            const SizedBox(height: 20),
             Text('Dark mode: ${widget.isDark}'),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -112,13 +100,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 widget.isDark ? 'Desativar Dark Mode' : 'Ativar Dark Mode',
               ),
             ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const TokenSecureStoragePage(),
+                  ),
+                );
+              },
+              child: const Text('Ir para Secure Token Storage'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const SQLiteTasksPage()),
+                );
+              },
+              child: const Text('Ir para Tarefas com SQLite'),
+            ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
